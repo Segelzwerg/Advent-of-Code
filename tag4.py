@@ -3,9 +3,19 @@ def has_double_digits(password):
 
     for i in range(len(password)-1):
         if password[i] == password[i+1]:
+            if i+2 < len(password):
+                if password[i+1] == password[i+2]:
+                    if i+3 < len(password):
+                        shortend_password = password
+                        while shortend_password[0] == password[0]:
+                            if len(shortend_password) == 1:
+                                return False
+                            shortend_password = shortend_password[1:]
+                        return has_double_digits(shortend_password)
+                    return False
             return True
-
     return False
+
 
 
 def is_incremental(password):

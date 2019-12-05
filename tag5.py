@@ -3,25 +3,34 @@ def gravity_assist(opcode):
     while opcode[i] != 99:
         pos_first_param = opcode[i + 1]
         pos_second_param = opcode[i + 2]
+        pos_third_param = opcode[i + 3]
         pos_result = opcode[i + 3]
 
-        if len(str(opcode[i])) > 2:
-            code = int(str(opcode[i])[-2:])
-            if str(opcode[i])[-3:-2] == "1":
+        opcode_as_string = str(opcode[i])
+        if len(opcode_as_string) > 2:
+            code = int(opcode_as_string[-2:])
+            if opcode_as_string[-3:-2] == "1":
                 first_param = opcode[i + 1]
             else:
                 first_param = opcode[pos_first_param]
-            if code <= 2:
-                if str(opcode[i])[-4:-3] == "1":
+            if code <= 2 or code >= 5:
+                if opcode_as_string[-4:-3] == "1":
                     second_param = opcode[i + 2]
                 else:
                     second_param = opcode[pos_second_param]
+                if code >= 7:
+                    if opcode_as_string[-5:-4] == "1":
+                        third_param = opcode[i + 3]
+                    else:
+                        third_param = opcode[pos_third_param]
 
         else:
             code = opcode[i]
             first_param = opcode[pos_first_param]
-            if code <= 2:
+            if code <= 2 or code >= 5:
                 second_param = opcode[pos_second_param]
+                if code >= 7:
+                    third_param = opcode[pos_third_param]
 
         if code == 1:
             opcode[pos_result] = first_param + second_param
@@ -31,13 +40,38 @@ def gravity_assist(opcode):
             opcode[pos_result] = int(input("Please give an integer:"))
         elif code == 4:
             print(first_param)
+        elif code == 5:
+            if first_param != 0:
+                i = second_param
+            else:
+                i += 3
+        elif code == 6:
+            if first_param == 0:
+                i = second_param
+            else:
+                i += 3
+        elif code == 7:
+            if first_param < second_param:
+                opcode[pos_third_param] = 1
+            else:
+                opcode[pos_third_param] = 0
+        elif code == 8:
+            if first_param == second_param:
+                opcode[pos_third_param] = 1
+            else:
+                opcode[pos_third_param] = 0
         else:
             exit(i)
             break
         if code <= 2:
             i += 4
+        elif code >= 7:
+            i += 4
+        elif code >= 5:
+            i = i
         else:
             i += 2
+
 
 if __name__ == '__main__':
     opcode = [3, 225, 1, 225, 6, 6, 1100, 1, 238, 225, 104, 0, 1102, 17, 65, 225, 102, 21, 95, 224, 1001, 224, -1869,

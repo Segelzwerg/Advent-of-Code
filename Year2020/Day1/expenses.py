@@ -8,6 +8,7 @@ def expenses(input_array: [int]):
                 print(f'x={x}, y={y}')
                 return x * y
 
+
 def three_sum(input_array: [int]) -> int:
     for x in input_array:
         for y in input_array:
@@ -15,6 +16,7 @@ def three_sum(input_array: [int]) -> int:
                 if x + y + z == 2020:
                     print(f'x={x}, y={y}, z={z}')
                     return x * y * z
+
 
 def main():
     input_array = np.genfromtxt('input.txt', dtype=int)
